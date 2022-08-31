@@ -6,45 +6,45 @@ import { warn } from './lib/lib.js';
 import { PinFixer } from './pin-fixer.js';
 
 export const initHooks = (...args) => {
-  warn('Init Hooks processing');
+	warn('Init Hooks processing');
 
-  PinFixer.init(...args);
+	PinFixer.init(...args);
 };
 export const setupHooks = () => {
-  warn('Setup Hooks processing');
-  setApi(API);
+	warn('Setup Hooks processing');
+	setApi(API);
 };
 export const readyHooks = async () => {
-  warn('Ready Hooks processing');
-  PinFixer.pullAboveFog();
-  Hooks.on('renderSceneControls', (...args) => {
-    PinFixer.renderSceneControls(...args);
-  });
+	warn('Ready Hooks processing');
+	PinFixer.pullAboveFog();
+	Hooks.on('renderSceneControls', (...args) => {
+		PinFixer.renderSceneControls(...args);
+	});
 
-  Hooks.on('canvasPan', (...args) => {
-    PinFixer.canvasPan(...args);
-  });
-  Hooks.on('renderSceneConfig', (...args) => {
-    PinFixer.renderSceneConfig(...args);
-  });
-  Hooks.on('renderNoteConfig', (...args) => {
-    PinFixer.renderNoteConfig(...args);
-  });
-  Hooks.on('hoverNote', (...args) => {
-    PinFixer.hoverNote(...args);
-  });
+	Hooks.on('canvasPan', (...args) => {
+		PinFixer.canvasPan(...args);
+	});
+	Hooks.on('renderSceneConfig', (...args) => {
+		PinFixer.renderSceneConfig(...args);
+	});
+	Hooks.on('renderNoteConfig', (...args) => {
+		PinFixer.renderNoteConfig(...args);
+	});
+	Hooks.on('hoverNote', (...args) => {
+		PinFixer.hoverNote(...args);
+	});
 
-  Hooks.on('updateNote', (...args) => {
-    PinFixer.updateNote(...args);
-  });
-  Hooks.on('updateScene', (...args) => {
-    PinFixer.updateScene(...args);
-  });
+	Hooks.on('updateNote', (...args) => {
+		PinFixer.updateNote(...args);
+	});
+	Hooks.on('updateScene', (...args) => {
+		PinFixer.updateScene(...args);
+	});
 
-  PinFixer.createHudHooks();
+	PinFixer.createHudHooks();
 
-  // eslint-disable-next-line no-undef
-  libWrapper.register(CONSTANTS.MODULE_NAME, 'Note.prototype._canDrag', NotePrototypeCanDragHandler, 'MIXED');
+	// eslint-disable-next-line no-undef
+	libWrapper.register(CONSTANTS.MODULE_NAME, 'Note.prototype._canDrag', NotePrototypeCanDragHandler, 'MIXED');
 };
 
 /**
@@ -63,11 +63,11 @@ export const readyHooks = async () => {
  * @memberof Note
  */
 export const NotePrototypeCanDragHandler = async function (wrapped, ...args) {
-  if (PinFixer.lockPins) {
-    return false;
-  } else {
-    // When lockPins isn't true, return the result of the original method
-    // return PinFixer.noteCanDrag.bind(this)(user, event);
-    return wrapped(...args);
-  }
+	if (PinFixer.lockPins) {
+		return false;
+	} else {
+		// When lockPins isn't true, return the result of the original method
+		// return PinFixer.noteCanDrag.bind(this)(user, event);
+		return wrapped(...args);
+	}
 };
